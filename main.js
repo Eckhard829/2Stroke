@@ -91,8 +91,8 @@ function showMainSite() {
 
   // On mobile, set bottles to starting position of 90deg immediately
   if (isMobile()) {
-    if (bottleLeft) bottleLeft.style.transform = 'translateX(-50%) rotate(90deg)';
-    if (bottleRight) bottleRight.style.transform = 'translateX(50%) rotate(90deg)';
+    if (bottleLeft) bottleLeft.style.transform = 'translateX(-50%) translateY(-50%) rotate(90deg)';
+    if (bottleRight) bottleRight.style.transform = 'translateX(-50%) translateY(-50%) rotate(90deg)';
   }
 
   // Lock scroll for hero animation on both mobile and desktop
@@ -115,9 +115,10 @@ function updateBottlePositions(offset) {
     const progress = offset / maxOffset; // 0 to 1
     // Start at 90deg, end at 180deg
     const rotation = 90 + (progress * 90);
-    // Left bottle goes UP and rotates, right bottle goes DOWN and rotates
-    bottleLeft.style.transform = `translateX(-50%) translateY(-${offset}px) rotate(${rotation}deg)`;
-    bottleRight.style.transform = `translateX(50%) translateY(${offset}px) rotate(${rotation}deg)`;
+    // Both bottles centered via CSS (left:50%, top:50%)
+    // Left bottle moves UP, right bottle moves DOWN
+    bottleLeft.style.transform = `translateX(-50%) translateY(calc(-50% - ${offset}px)) rotate(${rotation}deg)`;
+    bottleRight.style.transform = `translateX(-50%) translateY(calc(-50% + ${offset}px)) rotate(${rotation}deg)`;
   } else {
     bottleLeft.style.transform = `translateX(calc(-50% - ${offset}px))`;
     bottleRight.style.transform = `translateX(calc(50% + ${offset}px))`;

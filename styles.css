@@ -1169,13 +1169,19 @@ ul {
     min-height: 100vh;
   }
 
-  /* Bottles: start at 90deg on mobile, JS rotates them to 180deg */
+  /* Bottles: explicitly centered, start at 90deg */
+  .bottle-left,
+  .bottle-right {
+    left: 50%;
+    top: 50%;
+  }
+
   .bottle-left {
-    transform: translateX(-50%) rotate(90deg);
+    transform: translateX(-50%) translateY(-50%) rotate(90deg);
   }
 
   .bottle-right {
-    transform: translateX(50%) rotate(90deg);
+    transform: translateX(-50%) translateY(-50%) rotate(90deg);
   }
 
   /* Slightly smaller bottles on phones */
