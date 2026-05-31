@@ -74,8 +74,15 @@ function showMainSite() {
   initScrollAnimations();
 }
 
+function getMobileMaxOffset() {
+  // Bottles are 15rem (240px) tall on mobile. Center them at 50% vh.
+  // We want top bottle top-edge near 15% vh and bottom bottle bottom-edge near 85% vh.
+  // So each bottle travels roughly 30% of vh from center.
+  return Math.round(window.innerHeight * 0.30);
+}
+
 function updateBottlePositions(offset) {
-  const maxOffset = isMobile() ? Math.round(window.innerHeight * 0.5 - 160) : MAX_OFFSET;
+  const maxOffset = isMobile() ? getMobileMaxOffset() : MAX_OFFSET;
   const progress = Math.min(offset / maxOffset, 1);
 
   if (isMobile()) {
@@ -87,14 +94,15 @@ function updateBottlePositions(offset) {
     bottleRight.style.transform = `translateX(calc(50% + ${offset}px))`;
   }
 
-  lightLeak.style.opacity = Math.min(offset / 150, 1);
-  heroContent.style.opacity = Math.min(offset / 200, 1);
+  const maxOffset2 = isMobile() ? getMobileMaxOffset() : MAX_OFFSET;
+  lightLeak.style.opacity = Math.min(offset / (maxOffset2 * 0.6), 1);
+  heroContent.style.opacity = Math.min(offset / (maxOffset2 * 0.7), 1);
 }
 
 function handleHeroWheel(e) {
   if (heroAnimationComplete) return;
   e.preventDefault();
-  const maxOffset = isMobile() ? Math.round(window.innerHeight * 0.5 - 160) : MAX_OFFSET;
+  const maxOffset = isMobile() ? getMobileMaxOffset() : MAX_OFFSET;
   accumulatedScroll += e.deltaY * 0.8;
   accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, maxOffset * 2));
   const offset = Math.min(accumulatedScroll * 0.5, maxOffset);
@@ -113,7 +121,7 @@ function handleHeroTouchMove(e) {
   const currentY = e.touches[0].clientY;
   const deltaY = lastTouchY - currentY;
   lastTouchY = currentY;
-  const maxOffset = isMobile() ? Math.round(window.innerHeight * 0.5 - 160) : MAX_OFFSET;
+  const maxOffset = isMobile() ? getMobileMaxOffset() : MAX_OFFSET;
   accumulatedScroll += deltaY * 2;
   accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, maxOffset * 2));
   const offset = Math.min(accumulatedScroll * 0.5, maxOffset);
