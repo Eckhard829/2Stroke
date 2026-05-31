@@ -1164,19 +1164,30 @@ ul {
     overflow-x: hidden;
   }
 
+  /* Hero: tall enough for vertical bottle animation */
   .hero {
-    min-height: 100svh;
     min-height: 100vh;
   }
 
-  .bottle-shape {
-    width: 5rem;
-    height: 14rem;
+  /* Bottles: on mobile they start centered and move vertically.
+     Both bottles sit at center X, offset by translateY in JS */
+  .bottle-left {
+    transform: translateX(-50%) translateY(0);
   }
 
+  .bottle-right {
+    transform: translateX(50%) translateY(0);
+  }
+
+  /* Slightly smaller bottles on phones */
+  .bottle-shape {
+    width: 5.5rem;
+    height: 15rem;
+  }
+
+  /* Hero text sits in the middle between the two bottles */
   .hero-content {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+    padding: 0 1.5rem;
   }
 
   .stats-row {

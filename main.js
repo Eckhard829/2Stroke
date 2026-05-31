@@ -1,13 +1,16 @@
 // ===== State Management =====
-let stage = 'intro'; // 'intro' | 'age-gate' | 'main'
+let stage = 'intro';
 let fillProgress = 0;
 let bottleOffset = 0;
 let heroAnimationComplete = false;
 let accumulatedScroll = 0;
+
+// Desktop: bottles go left/right
 const MAX_OFFSET = 450;
+// Mobile: bottles go up/down
+const MAX_OFFSET_MOBILE = 220;
 
 // Touch tracking
-let touchStartY = 0;
 let lastTouchY = 0;
 
 // ===== DOM Elements =====
@@ -32,10 +35,14 @@ const lightLeak = document.getElementById('light-leak');
 const heroContent = document.getElementById('hero-content');
 const heroScrollHint = document.getElementById('hero-scroll-hint');
 
+// ===== Helpers =====
+function isMobile() {
+  return window.innerWidth < 768;
+}
+
 // ===== Check Session Storage =====
 function checkAgeVerification() {
-  const verified = sessionStorage.getItem('ageVerified');
-  if (verified === 'true') {
+  if (sessionStorage.getItem('ageVerified') === 'true') {
     showMainSite();
   }
 }
@@ -43,18 +50,11 @@ function checkAgeVerification() {
 // ===== Intro Animation =====
 function handleIntroScroll() {
   if (stage !== 'intro') return;
-  
-  const scrollY = window.scrollY;
-  const windowHeight = window.innerHeight;
-  fillProgress = Math.min((scrollY / windowHeight) * 100, 100);
-  
+  fillProgress = Math.min((window.scrollY / window.innerHeight) * 100, 100);
   if (introFill) {
     introFill.style.clipPath = `inset(0 ${100 - fillProgress}% 0 0)`;
   }
-  
-  if (fillProgress >= 100) {
-    setTimeout(showAgeGate, 300);
-  }
+  if (fillProgress >= 100) setTimeout(showAgeGate, 300);
 }
 
 // ===== Show Age Gate =====
@@ -86,103 +86,81 @@ function showMainSite() {
   scrollHint.classList.add('hidden');
   ageGate.classList.add('hidden');
   mainSite.classList.remove('hidden');
-  
-  // Trigger fade in
-  setTimeout(() => {
-    mainSite.classList.add('visible');
-  }, 10);
 
-  // On mobile, skip the bottle animation and go straight to scrollable content
-  if (isMobile()) {
-    completeHeroAnimation();
-    return;
-  }
+  setTimeout(() => mainSite.classList.add('visible'), 10);
 
-  // Desktop: lock scroll and run bottle animation
+  // Lock scroll for hero animation on both mobile and desktop
   document.body.style.overflow = 'hidden';
   window.scrollTo(0, 0);
-  
-  // Add hero wheel + touch listeners
+
+  // Desktop: wheel
   window.addEventListener('wheel', handleHeroWheel, { passive: false });
+  // Mobile & tablet: touch
   window.addEventListener('touchstart', handleHeroTouchStart, { passive: true });
   window.addEventListener('touchmove', handleHeroTouchMove, { passive: false });
-  
-  // Initialize scroll animations
+
   initScrollAnimations();
 }
 
-function isMobile() {
-  return window.innerWidth < 768 || ('ontouchstart' in window && window.innerWidth < 1024);
+// ===== Update bottle positions =====
+function updateBottlePositions(offset) {
+  if (isMobile()) {
+    // Left bottle goes UP, right bottle goes DOWN
+    bottleLeft.style.transform = `translateX(-50%) translateY(-${offset}px)`;
+    bottleRight.style.transform = `translateX(50%) translateY(${offset}px)`;
+  } else {
+    // Desktop: left goes left, right goes right
+    bottleLeft.style.transform = `translateX(calc(-50% - ${offset}px))`;
+    bottleRight.style.transform = `translateX(calc(50% + ${offset}px))`;
+  }
+  lightLeak.style.opacity = Math.min(offset / 150, 1);
+  heroContent.style.opacity = Math.min(offset / (isMobile() ? 120 : 200), 1);
 }
 
-function completeHeroAnimation() {
-  // On mobile use a smaller offset so both bottles stay visible on screen
-  const mobileOffset = Math.min(window.innerWidth * 0.28, 110);
-  const offset = isMobile() ? mobileOffset : MAX_OFFSET;
-
-  if (bottleLeft) bottleLeft.style.transform = `translateX(calc(-50% - ${offset}px))`;
-  if (bottleRight) bottleRight.style.transform = `translateX(calc(50% + ${offset}px))`;
-  if (lightLeak) lightLeak.style.opacity = '1';
-  if (heroContent) heroContent.style.opacity = '1';
-  if (heroScrollHint) heroScrollHint.textContent = 'Scroll to explore';
-  heroAnimationComplete = true;
-  document.body.style.overflow = '';
-  initScrollAnimations();
-}
-
-// ===== Hero Wheel Animation (Desktop) =====
+// ===== Hero Wheel (Desktop) =====
 function handleHeroWheel(e) {
   if (heroAnimationComplete) return;
-  
   e.preventDefault();
-  
+
   accumulatedScroll += e.deltaY * 0.8;
   accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, MAX_OFFSET * 2));
-  
   bottleOffset = Math.min(accumulatedScroll * 0.5, MAX_OFFSET);
-  updateBottlePositions();
-  
-  if (bottleOffset >= MAX_OFFSET) {
-    finishHeroAnimation();
-  }
+
+  updateBottlePositions(bottleOffset);
+
+  if (bottleOffset >= MAX_OFFSET) finishHeroAnimation();
 }
 
-// ===== Hero Touch Animation (Desktop touch / tablets) =====
+// ===== Hero Touch (Mobile/Tablet) =====
 function handleHeroTouchStart(e) {
   if (heroAnimationComplete) return;
-  touchStartY = e.touches[0].clientY;
-  lastTouchY = touchStartY;
+  lastTouchY = e.touches[0].clientY;
 }
 
 function handleHeroTouchMove(e) {
   if (heroAnimationComplete) return;
   e.preventDefault();
-  
+
   const currentY = e.touches[0].clientY;
-  const deltaY = lastTouchY - currentY; // positive = scrolling down
+  const deltaY = lastTouchY - currentY; // positive = swiping up
   lastTouchY = currentY;
-  
-  accumulatedScroll += deltaY * 1.5;
-  accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, MAX_OFFSET * 2));
-  
-  bottleOffset = Math.min(accumulatedScroll * 0.5, MAX_OFFSET);
-  updateBottlePositions();
-  
-  if (bottleOffset >= MAX_OFFSET) {
-    finishHeroAnimation();
-  }
+
+  const maxOffset = isMobile() ? MAX_OFFSET_MOBILE : MAX_OFFSET;
+  const sensitivity = isMobile() ? 2.5 : 1.5;
+
+  accumulatedScroll += deltaY * sensitivity;
+  accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, maxOffset * 2));
+  bottleOffset = Math.min(accumulatedScroll * 0.5, maxOffset);
+
+  updateBottlePositions(bottleOffset);
+
+  if (bottleOffset >= maxOffset) finishHeroAnimation();
 }
 
-function updateBottlePositions() {
-  bottleLeft.style.transform = `translateX(calc(-50% - ${bottleOffset}px))`;
-  bottleRight.style.transform = `translateX(calc(50% + ${bottleOffset}px))`;
-  lightLeak.style.opacity = Math.min(bottleOffset / 150, 1);
-  heroContent.style.opacity = Math.min(bottleOffset / 200, 1);
-}
-
+// ===== Finish Hero Animation =====
 function finishHeroAnimation() {
   heroAnimationComplete = true;
-  heroScrollHint.textContent = 'Scroll to explore';
+  if (heroScrollHint) heroScrollHint.textContent = 'Scroll to explore';
   document.body.style.overflow = '';
   window.removeEventListener('wheel', handleHeroWheel);
   window.removeEventListener('touchstart', handleHeroTouchStart);
@@ -199,36 +177,19 @@ function toggleMobileMenu() {
 // ===== Scroll Animations =====
 function initScrollAnimations() {
   const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    },
+    (entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    }),
     { threshold: 0.1 }
   );
-  
-  const animatedSections = document.querySelectorAll('[data-animate]');
-  animatedSections.forEach((section) => observer.observe(section));
+  document.querySelectorAll('[data-animate]').forEach((el) => observer.observe(el));
 }
 
 // ===== Event Listeners =====
 window.addEventListener('scroll', handleIntroScroll);
-
-if (ageYesBtn) {
-  ageYesBtn.addEventListener('click', () => handleAgeVerification(true));
-}
-
-if (ageNoBtn) {
-  ageNoBtn.addEventListener('click', () => handleAgeVerification(false));
-}
-
-if (mobileMenuBtn) {
-  mobileMenuBtn.addEventListener('click', toggleMobileMenu);
-}
-
-// Close mobile menu when clicking a link
+if (ageYesBtn) ageYesBtn.addEventListener('click', () => handleAgeVerification(true));
+if (ageNoBtn) ageNoBtn.addEventListener('click', () => handleAgeVerification(false));
+if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleMobileMenu);
 if (mobileMenu) {
   mobileMenu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
