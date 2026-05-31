@@ -356,6 +356,20 @@ ul {
   transform: translateX(50%);
 }
 
+@media (max-width: 767px) {
+  .bottle-left,
+  .bottle-right {
+    left: 50%;
+    top: 50%;
+  }
+  .bottle-left {
+    transform: translate(-50%, -50%);
+  }
+  .bottle-right {
+    transform: translate(-50%, -50%);
+  }
+}
+
 
 
 .bottle-shape {

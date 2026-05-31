@@ -79,9 +79,9 @@ function updateBottlePositions(offset) {
   const progress = Math.min(offset / maxOffset, 1);
 
   if (isMobile()) {
-    const rotation = progress * 180;
-    bottleLeft.style.transform = `translateX(-50%) translateY(-${offset}px) rotate(${rotation}deg)`;
-    bottleRight.style.transform = `translateX(50%) translateY(${offset}px) rotate(${rotation}deg)`;
+    const rotation = Math.min(progress * 180, 180);
+    bottleLeft.style.transform = `translate(-50%, calc(-50% - ${offset}px)) rotate(${rotation}deg)`;
+    bottleRight.style.transform = `translate(-50%, calc(-50% + ${offset}px)) rotate(${rotation}deg)`;
   } else {
     bottleLeft.style.transform = `translateX(calc(-50% - ${offset}px))`;
     bottleRight.style.transform = `translateX(calc(50% + ${offset}px))`;
