@@ -75,12 +75,10 @@ function showMainSite() {
 }
 
 function updateBottlePositions(offset) {
-  const progress = Math.min(offset / MAX_OFFSET, 1);
+  const maxOffset = isMobile() ? 180 : MAX_OFFSET;
+  const progress = Math.min(offset / maxOffset, 1);
 
   if (isMobile()) {
-    // Same start as desktop. As user swipes:
-    // left bottle goes UP, right bottle goes DOWN
-    // both rotate from 0deg to 180deg
     const rotation = progress * 180;
     bottleLeft.style.transform = `translateX(-50%) translateY(-${offset}px) rotate(${rotation}deg)`;
     bottleRight.style.transform = `translateX(50%) translateY(${offset}px) rotate(${rotation}deg)`;
@@ -96,11 +94,12 @@ function updateBottlePositions(offset) {
 function handleHeroWheel(e) {
   if (heroAnimationComplete) return;
   e.preventDefault();
+  const maxOffset = isMobile() ? 180 : MAX_OFFSET;
   accumulatedScroll += e.deltaY * 0.8;
-  accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, MAX_OFFSET * 2));
-  const offset = Math.min(accumulatedScroll * 0.5, MAX_OFFSET);
+  accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, maxOffset * 2));
+  const offset = Math.min(accumulatedScroll * 0.5, maxOffset);
   updateBottlePositions(offset);
-  if (offset >= MAX_OFFSET) finishHeroAnimation();
+  if (offset >= maxOffset) finishHeroAnimation();
 }
 
 function handleHeroTouchStart(e) {
@@ -114,11 +113,12 @@ function handleHeroTouchMove(e) {
   const currentY = e.touches[0].clientY;
   const deltaY = lastTouchY - currentY;
   lastTouchY = currentY;
+  const maxOffset = isMobile() ? 180 : MAX_OFFSET;
   accumulatedScroll += deltaY * 2;
-  accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, MAX_OFFSET * 2));
-  const offset = Math.min(accumulatedScroll * 0.5, MAX_OFFSET);
+  accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, maxOffset * 2));
+  const offset = Math.min(accumulatedScroll * 0.5, maxOffset);
   updateBottlePositions(offset);
-  if (offset >= MAX_OFFSET) finishHeroAnimation();
+  if (offset >= maxOffset) finishHeroAnimation();
 }
 
 function finishHeroAnimation() {
