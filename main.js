@@ -6,6 +6,10 @@ let heroAnimationComplete = false;
 let accumulatedScroll = 0;
 const MAX_OFFSET = 450;
 
+// Touch tracking
+let touchStartY = 0;
+let lastTouchY = 0;
+
 // ===== DOM Elements =====
 const introScreen = document.getElementById('intro-screen');
 const introSpacer = document.getElementById('intro-spacer');
@@ -87,19 +91,43 @@ function showMainSite() {
   setTimeout(() => {
     mainSite.classList.add('visible');
   }, 10);
-  
-  // Lock scroll initially
+
+  // On mobile, skip the bottle animation and go straight to scrollable content
+  if (isMobile()) {
+    completeHeroAnimation();
+    return;
+  }
+
+  // Desktop: lock scroll and run bottle animation
   document.body.style.overflow = 'hidden';
   window.scrollTo(0, 0);
   
-  // Add hero wheel listener
+  // Add hero wheel + touch listeners
   window.addEventListener('wheel', handleHeroWheel, { passive: false });
+  window.addEventListener('touchstart', handleHeroTouchStart, { passive: true });
+  window.addEventListener('touchmove', handleHeroTouchMove, { passive: false });
   
   // Initialize scroll animations
   initScrollAnimations();
 }
 
-// ===== Hero Wheel Animation =====
+function isMobile() {
+  return window.innerWidth < 768 || ('ontouchstart' in window && window.innerWidth < 1024);
+}
+
+function completeHeroAnimation() {
+  // Instantly show bottles spread and hero content
+  if (bottleLeft) bottleLeft.style.transform = `translateX(calc(-50% - ${MAX_OFFSET}px))`;
+  if (bottleRight) bottleRight.style.transform = `translateX(calc(50% + ${MAX_OFFSET}px))`;
+  if (lightLeak) lightLeak.style.opacity = '1';
+  if (heroContent) heroContent.style.opacity = '1';
+  if (heroScrollHint) heroScrollHint.textContent = 'Scroll to explore';
+  heroAnimationComplete = true;
+  document.body.style.overflow = '';
+  initScrollAnimations();
+}
+
+// ===== Hero Wheel Animation (Desktop) =====
 function handleHeroWheel(e) {
   if (heroAnimationComplete) return;
   
@@ -109,23 +137,53 @@ function handleHeroWheel(e) {
   accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, MAX_OFFSET * 2));
   
   bottleOffset = Math.min(accumulatedScroll * 0.5, MAX_OFFSET);
+  updateBottlePositions();
   
-  // Update bottle positions
+  if (bottleOffset >= MAX_OFFSET) {
+    finishHeroAnimation();
+  }
+}
+
+// ===== Hero Touch Animation (Desktop touch / tablets) =====
+function handleHeroTouchStart(e) {
+  if (heroAnimationComplete) return;
+  touchStartY = e.touches[0].clientY;
+  lastTouchY = touchStartY;
+}
+
+function handleHeroTouchMove(e) {
+  if (heroAnimationComplete) return;
+  e.preventDefault();
+  
+  const currentY = e.touches[0].clientY;
+  const deltaY = lastTouchY - currentY; // positive = scrolling down
+  lastTouchY = currentY;
+  
+  accumulatedScroll += deltaY * 1.5;
+  accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, MAX_OFFSET * 2));
+  
+  bottleOffset = Math.min(accumulatedScroll * 0.5, MAX_OFFSET);
+  updateBottlePositions();
+  
+  if (bottleOffset >= MAX_OFFSET) {
+    finishHeroAnimation();
+  }
+}
+
+function updateBottlePositions() {
   bottleLeft.style.transform = `translateX(calc(-50% - ${bottleOffset}px))`;
   bottleRight.style.transform = `translateX(calc(50% + ${bottleOffset}px))`;
-  
-  // Update light leak opacity
   lightLeak.style.opacity = Math.min(bottleOffset / 150, 1);
-  
-  // Update hero content opacity
   heroContent.style.opacity = Math.min(bottleOffset / 200, 1);
-  
-  // Update scroll hint text
-  if (bottleOffset >= MAX_OFFSET) {
-    heroAnimationComplete = true;
-    heroScrollHint.textContent = 'Scroll to explore';
-    document.body.style.overflow = '';
-  }
+}
+
+function finishHeroAnimation() {
+  heroAnimationComplete = true;
+  heroScrollHint.textContent = 'Scroll to explore';
+  document.body.style.overflow = '';
+  window.removeEventListener('wheel', handleHeroWheel);
+  window.removeEventListener('touchstart', handleHeroTouchStart);
+  window.removeEventListener('touchmove', handleHeroTouchMove);
 }
 
 // ===== Mobile Menu =====

@@ -163,6 +163,9 @@ ul {
 
 .intro-spacer {
   height: 200vh;
+  /* Ensure spacer creates scrollable area on all browsers */
+  display: block;
+  width: 100%;
 }
 
 .scroll-hint {
@@ -1152,4 +1155,57 @@ ul {
 .tip-desc {
   color: var(--white-70);
   font-size: 0.875rem;
+}
+
+/* ===== Mobile Fixes ===== */
+@media (max-width: 767px) {
+  html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .hero {
+    min-height: 100svh;
+    min-height: 100vh;
+  }
+
+  .bottle-shape {
+    width: 5rem;
+    height: 14rem;
+  }
+
+  .hero-content {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .stats-row {
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .product-detail:nth-child(even) .product-detail-bottle {
+    order: unset;
+  }
+
+  .product-detail-bottle {
+    order: unset !important;
+  }
+
+  .section {
+    padding: 4rem 0;
+  }
+
+  .about-section {
+    padding: 3rem 0;
+  }
+
+  .page-header {
+    padding-top: 6rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .container {
+    padding: 0 1.25rem;
+  }
 }
