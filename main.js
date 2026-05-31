@@ -75,10 +75,12 @@ function showMainSite() {
 }
 
 function getMobileMaxOffset() {
-  // Target: top bottle center lands ~200px from top of screen.
-  // Screen center = 50% vh. Offset = (50% vh) - 200px.
-  // On 844px: 422 - 200 = 222px. This is exactly what we see in the screenshot.
-  return Math.round(window.innerHeight * 0.5) - 200;
+  // Bottle height = 240px. Bottles start at center (50% vh).
+  // Target from screenshot: top bottle sits just below navbar (~70px from top).
+  // Top bottle CENTER = 70px + 120px = 190px from top.
+  // offset = (50% vh) - 190px
+  // On 844px: 422 - 190 = 232px
+  return Math.round(window.innerHeight * 0.5) - 190;
 }
 
 function updateBottlePositions(offset) {
@@ -86,14 +88,14 @@ function updateBottlePositions(offset) {
   const progress = Math.min(offset / maxOffset, 1);
 
   if (isMobile()) {
-    bottleLeft.style.transform = `translate(-50%, calc(-50% - ${offset}px)) rotate(${progress * 180}deg)`;
+    bottleLeft.style.transform  = `translate(-50%, calc(-50% - ${offset}px)) rotate(${progress * 180}deg)`;
     bottleRight.style.transform = `translate(-50%, calc(-50% + ${offset}px)) rotate(${progress * 180}deg)`;
   } else {
-    bottleLeft.style.transform = `translateX(calc(-50% - ${offset}px))`;
+    bottleLeft.style.transform  = `translateX(calc(-50% - ${offset}px))`;
     bottleRight.style.transform = `translateX(calc(50% + ${offset}px))`;
   }
 
-  lightLeak.style.opacity = Math.min(offset / (maxOffset * 0.5), 1);
+  lightLeak.style.opacity   = Math.min(offset / (maxOffset * 0.5), 1);
   heroContent.style.opacity = Math.min(offset / (maxOffset * 0.6), 1);
 }
 
@@ -120,9 +122,12 @@ function handleHeroTouchMove(e) {
   const deltaY = lastTouchY - currentY;
   lastTouchY = currentY;
   const maxOffset = isMobile() ? getMobileMaxOffset() : MAX_OFFSET;
-  accumulatedScroll += deltaY * 2;
-  accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, maxOffset * 2));
-  const offset = Math.min(accumulatedScroll * 0.5, maxOffset);
+
+  // 1:1 direct mapping — finger moves up X px, bottles move X px apart
+  accumulatedScroll += deltaY;
+  accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, maxOffset));
+  const offset = accumulatedScroll;
+
   updateBottlePositions(offset);
   if (offset >= maxOffset) finishHeroAnimation();
 }
