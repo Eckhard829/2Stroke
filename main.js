@@ -75,12 +75,10 @@ function showMainSite() {
 }
 
 function getMobileMaxOffset() {
-  // Bottles start centered at 50% vh. Bottle height = 240px.
-  // Top bottle must be fully ABOVE the navbar (~70px from top).
-  // Its center needs to be at: 70px - 120px = -50px (off screen top).
-  // Distance from screen center (50%vh): 50%vh + 50px.
-  // On 844px phone: 422 + 50 = 472px. Use 60% vh + 50px to cover all phone sizes.
-  return Math.round(window.innerHeight * 0.60) + 50;
+  // Target: top bottle center lands ~200px from top of screen.
+  // Screen center = 50% vh. Offset = (50% vh) - 200px.
+  // On 844px: 422 - 200 = 222px. This is exactly what we see in the screenshot.
+  return Math.round(window.innerHeight * 0.5) - 200;
 }
 
 function updateBottlePositions(offset) {
@@ -88,7 +86,6 @@ function updateBottlePositions(offset) {
   const progress = Math.min(offset / maxOffset, 1);
 
   if (isMobile()) {
-    // Top bottle flies UP (rotated 180° upside down), bottom flies DOWN
     bottleLeft.style.transform = `translate(-50%, calc(-50% - ${offset}px)) rotate(${progress * 180}deg)`;
     bottleRight.style.transform = `translate(-50%, calc(-50% + ${offset}px)) rotate(${progress * 180}deg)`;
   } else {
