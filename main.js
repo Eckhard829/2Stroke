@@ -75,7 +75,7 @@ function showMainSite() {
 }
 
 function updateBottlePositions(offset) {
-  const maxOffset = isMobile() ? 180 : MAX_OFFSET;
+  const maxOffset = isMobile() ? Math.round(window.innerHeight * 0.5 - 160) : MAX_OFFSET;
   const progress = Math.min(offset / maxOffset, 1);
 
   if (isMobile()) {
@@ -94,7 +94,7 @@ function updateBottlePositions(offset) {
 function handleHeroWheel(e) {
   if (heroAnimationComplete) return;
   e.preventDefault();
-  const maxOffset = isMobile() ? 180 : MAX_OFFSET;
+  const maxOffset = isMobile() ? Math.round(window.innerHeight * 0.5 - 160) : MAX_OFFSET;
   accumulatedScroll += e.deltaY * 0.8;
   accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, maxOffset * 2));
   const offset = Math.min(accumulatedScroll * 0.5, maxOffset);
@@ -113,7 +113,7 @@ function handleHeroTouchMove(e) {
   const currentY = e.touches[0].clientY;
   const deltaY = lastTouchY - currentY;
   lastTouchY = currentY;
-  const maxOffset = isMobile() ? 180 : MAX_OFFSET;
+  const maxOffset = isMobile() ? Math.round(window.innerHeight * 0.5 - 160) : MAX_OFFSET;
   accumulatedScroll += deltaY * 2;
   accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, maxOffset * 2));
   const offset = Math.min(accumulatedScroll * 0.5, maxOffset);
