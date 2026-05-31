@@ -89,6 +89,12 @@ function showMainSite() {
 
   setTimeout(() => mainSite.classList.add('visible'), 10);
 
+  // On mobile, set bottles to starting position of 90deg immediately
+  if (isMobile()) {
+    if (bottleLeft) bottleLeft.style.transform = 'translateX(-50%) rotate(90deg)';
+    if (bottleRight) bottleRight.style.transform = 'translateX(50%) rotate(90deg)';
+  }
+
   // Lock scroll for hero animation on both mobile and desktop
   document.body.style.overflow = 'hidden';
   window.scrollTo(0, 0);
