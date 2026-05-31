@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2 Stroke Vodka | Pure. Raw. Premium.</title>
+  <meta name="description" content="Premium vodka born from speed and precision. 2 Stroke - where mechanical perfection meets distilled excellence.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Intro Screen -->
+  <div id="intro-screen" class="intro-screen">
+    <h1 class="intro-text">
+      <span class="intro-text-outline">2 STROKE</span>
+      <span class="intro-text-fill">2 STROKE</span>
+    </h1>
+    <div class="scroll-hint">Scroll to ignite</div>
+  </div>
+  <div id="intro-spacer" class="intro-spacer"></div>
+
+  <!-- Age Gate -->
+  <div id="age-gate" class="age-gate hidden">
+    <div class="age-gate-logo">2 STROKE</div>
+    <p class="age-gate-text">You must be 18 or older to enter this site.</p>
+    <div class="age-gate-buttons">
+      <button id="age-yes" class="btn btn-primary">Yes, I'm 18+</button>
+      <button id="age-no" class="btn btn-outline">No, take me back</button>
+    </div>
+  </div>
+
+  <!-- Main Website -->
+  <div id="main-site" class="main-site hidden">
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="index.html" class="logo">2 STROKE</a>
+        <div class="nav-links">
+          <a href="products.html">Products</a>
+          <a href="about.html">About</a>
+          <a href="cocktails.html">Cocktails</a>
+        </div>
+        <button id="mobile-menu-btn" class="mobile-menu-btn">
+          <svg id="menu-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+          <svg id="close-icon" class="hidden" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div id="mobile-menu" class="mobile-menu hidden">
+        <a href="products.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="cocktails.html">Cocktails</a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+      <div class="bottles-container">
+        <div id="bottle-left" class="bottle bottle-left">
+          <div class="bottle-shape bottle-light">
+            <div class="bottle-glow"></div>
+            <div class="bottle-label">2 STROKE</div>
+          </div>
+        </div>
+        <div id="light-leak" class="light-leak"></div>
+        <div id="bottle-right" class="bottle bottle-right">
+          <div class="bottle-shape bottle-dark">
+            <div class="bottle-glow"></div>
+            <div class="bottle-label">BLACK</div>
+          </div>
+        </div>
+      </div>
+      <div id="hero-content" class="hero-content">
+        <h1 class="hero-title">2 STROKE</h1>
+        <p class="hero-subtitle">Pure. Raw.</p>
+        <p class="hero-description">Crafted with precision. Distilled with passion. Experience vodka the way it was meant to be.</p>
+        <a href="products.html" class="btn btn-primary btn-glow">Explore Collection</a>
+      </div>
+      <div id="hero-scroll-hint" class="scroll-hint">Scroll to reveal</div>
+    </section>
+
+    <!-- Products Preview -->
+    <section id="products-preview" class="section section-dark" data-animate>
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Our <span class="text-orange">Collection</span></h2>
+          <a href="products.html" class="link-arrow desktop-only">View All <span>→</span></a>
+        </div>
+        <div class="products-grid">
+          <div class="product-card" data-delay="0">
+            <div class="product-bottle">
+              <div class="product-bottle-glow"></div>
+            </div>
+            <h3 class="product-name">Original</h3>
+            <p class="product-abv">40%</p>
+            <p class="product-description">Our signature blend. Clean, smooth, unforgettable.</p>
+          </div>
+          <div class="product-card" data-delay="100">
+            <div class="product-bottle">
+              <div class="product-bottle-glow"></div>
+            </div>
+            <h3 class="product-name">Black Edition</h3>
+            <p class="product-abv">42%</p>
+            <p class="product-description">Charcoal filtered for an extra smooth finish.</p>
+          </div>
+          <div class="product-card" data-delay="200">
+            <div class="product-bottle">
+              <div class="product-bottle-glow"></div>
+            </div>
+            <h3 class="product-name">Reserve</h3>
+            <p class="product-abv">45%</p>
+            <p class="product-description">Small batch. Aged to perfection.</p>
+          </div>
+        </div>
+        <a href="products.html" class="link-arrow mobile-only">View All Products <span>→</span></a>
+      </div>
+    </section>
+
+    <!-- About Preview -->
+    <section id="about-preview" class="section" data-animate>
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-content">
+            <h2 class="section-title">Born from <span class="text-orange">Speed</span></h2>
+            <p class="about-text">Like the roar of a two-stroke engine, our vodka is raw, powerful, and unforgettable. We don't just distill spirits — we engineer them with the same precision that powers the fastest machines.</p>
+            <div class="stats-row">
+              <div class="stat">
+                <div class="stat-value">3x</div>
+                <div class="stat-label">Distilled</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Pure Grain</div>
+              </div>
+              <div class="stat">
+                <div class="stat-value">0</div>
+                <div class="stat-label">Additives</div>
+              </div>
+            </div>
+            <a href="about.html" class="link-arrow">Our Story <span>→</span></a>
+          </div>
+          <div class="about-image">
+            <div class="about-image-text">2S</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cocktails Preview -->
+    <section id="cocktails-preview" class="section section-dark" data-animate>
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Signature <span class="text-orange">Cocktails</span></h2>
+          <a href="cocktails.html" class="link-arrow desktop-only">View All <span>→</span></a>
+        </div>
+        <div class="cocktails-grid">
+          <div class="cocktail-card" data-delay="0">
+            <div class="cocktail-bar"></div>
+            <div class="cocktail-content">
+              <h3 class="cocktail-name">The Piston</h3>
+              <ul class="cocktail-ingredients">
+                <li><span class="bullet"></span>2 oz 2 Stroke Original</li>
+                <li><span class="bullet"></span>1 oz fresh lime juice</li>
+                <li><span class="bullet"></span>0.5 oz simple syrup</li>
+                <li><span class="bullet"></span>Ginger beer</li>
+              </ul>
+            </div>
+          </div>
+          <div class="cocktail-card" data-delay="100">
+            <div class="cocktail-bar"></div>
+            <div class="cocktail-content">
+              <h3 class="cocktail-name">Midnight Fuel</h3>
+              <ul class="cocktail-ingredients">
+                <li><span class="bullet"></span>2 oz 2 Stroke Black</li>
+                <li><span class="bullet"></span>1 oz coffee liqueur</li>
+                <li><span class="bullet"></span>Fresh espresso</li>
+                <li><span class="bullet"></span>Cream float</li>
+              </ul>
+            </div>
+          </div>
+          <div class="cocktail-card" data-delay="200">
+            <div class="cocktail-bar"></div>
+            <div class="cocktail-content">
+              <h3 class="cocktail-name">Burnout</h3>
+              <ul class="cocktail-ingredients">
+                <li><span class="bullet"></span>2 oz 2 Stroke Reserve</li>
+                <li><span class="bullet"></span>0.75 oz Cointreau</li>
+                <li><span class="bullet"></span>Fresh orange juice</li>
+                <li><span class="bullet"></span>Flamed orange peel</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <a href="cocktails.html" class="link-arrow mobile-only">View All Cocktails <span>→</span></a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-top">
+          <div class="footer-logo">2 STROKE</div>
+          <div class="footer-links">
+            <a href="products.html">Products</a>
+            <a href="about.html">About</a>
+            <a href="cocktails.html">Cocktails</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p class="footer-copyright">© 2024 2 Stroke Vodka. All rights reserved.</p>
+          <p class="footer-legal">Drink responsibly. 18+ only.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

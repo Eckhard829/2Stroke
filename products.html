@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products | 2 Stroke Vodka</title>
+  <meta name="description" content="Explore the 2 Stroke Vodka collection. Original, Black Edition, and Reserve.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="index.html" class="logo">2 STROKE</a>
+      <div class="nav-links">
+        <a href="products.html" class="active">Products</a>
+        <a href="about.html">About</a>
+        <a href="cocktails.html">Cocktails</a>
+      </div>
+      <button id="mobile-menu-btn" class="mobile-menu-btn">
+        <svg id="menu-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <svg id="close-icon" class="hidden" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="mobile-menu hidden">
+      <a href="products.html" class="active">Products</a>
+      <a href="about.html">About</a>
+      <a href="cocktails.html">Cocktails</a>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <a href="index.html" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Home
+      </a>
+      <h1 class="page-title">Our <span class="text-orange">Collection</span></h1>
+      <p class="page-description">Three expressions of perfection. Each bottle a testament to precision engineering and uncompromising quality.</p>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="section">
+    <div class="container">
+      <!-- Original -->
+      <div class="product-detail" data-animate>
+        <div class="product-detail-bottle">
+          <div class="product-detail-shape bottle-light">
+            <div class="bottle-glow"></div>
+            <div class="bottle-label">ORIGINAL</div>
+          </div>
+        </div>
+        <div class="product-detail-info">
+          <h2 class="product-detail-title">2 Stroke Original</h2>
+          <p class="product-detail-desc">Pure, clean, and impossibly smooth. The flagship that started it all. Triple distilled from premium grain, filtered through activated charcoal for unmatched clarity.</p>
+          <div class="product-tags">
+            <span class="product-tag">40% ABV</span>
+            <span class="product-tag">750ml</span>
+            <span class="product-tag">Triple Distilled</span>
+          </div>
+          <button class="btn btn-primary">Find Near You</button>
+        </div>
+      </div>
+
+      <!-- Black Edition -->
+      <div class="product-detail" data-animate>
+        <div class="product-detail-bottle">
+          <div class="product-detail-shape bottle-dark">
+            <div class="bottle-glow"></div>
+            <div class="bottle-label">BLACK</div>
+          </div>
+        </div>
+        <div class="product-detail-info">
+          <h2 class="product-detail-title">2 Stroke Black</h2>
+          <p class="product-detail-desc">Charcoal-filtered darkness. Bold, mysterious, unforgettable. An extra filtration through Japanese oak charcoal gives it a distinctive deep character.</p>
+          <div class="product-tags">
+            <span class="product-tag">42% ABV</span>
+            <span class="product-tag">750ml</span>
+            <span class="product-tag">Charcoal Filtered</span>
+          </div>
+          <button class="btn btn-primary">Find Near You</button>
+        </div>
+      </div>
+
+      <!-- Reserve -->
+      <div class="product-detail" data-animate>
+        <div class="product-detail-bottle">
+          <div class="product-detail-shape" style="background: linear-gradient(to bottom, rgba(180, 83, 9, 0.5), #1f2937);">
+            <div class="bottle-glow"></div>
+            <div class="bottle-label">RESERVE</div>
+          </div>
+        </div>
+        <div class="product-detail-info">
+          <h2 class="product-detail-title">2 Stroke Reserve</h2>
+          <p class="product-detail-desc">Small batch excellence. Aged in American oak barrels for 6 months, developing subtle vanilla and caramel notes while maintaining the signature smoothness.</p>
+          <div class="product-tags">
+            <span class="product-tag">45% ABV</span>
+            <span class="product-tag">750ml</span>
+            <span class="product-tag">Oak Aged</span>
+          </div>
+          <button class="btn btn-primary">Find Near You</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-logo">2 STROKE</div>
+        <div class="footer-links">
+          <a href="products.html" class="active">Products</a>
+          <a href="about.html">About</a>
+          <a href="cocktails.html">Cocktails</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2024 2 Stroke Vodka. All rights reserved.</p>
+        <p class="footer-legal">Drink responsibly. 18+ only.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="pages.js"></script>
+</body>
+</html>

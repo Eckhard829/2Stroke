@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cocktails | 2 Stroke Vodka</title>
+  <meta name="description" content="Signature cocktail recipes with 2 Stroke Vodka.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="navbar-container">
+      <a href="index.html" class="logo">2 STROKE</a>
+      <div class="nav-links">
+        <a href="products.html">Products</a>
+        <a href="about.html">About</a>
+        <a href="cocktails.html" class="active">Cocktails</a>
+      </div>
+      <button id="mobile-menu-btn" class="mobile-menu-btn">
+        <svg id="menu-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <svg id="close-icon" class="hidden" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="mobile-menu hidden">
+      <a href="products.html">Products</a>
+      <a href="about.html">About</a>
+      <a href="cocktails.html" class="active">Cocktails</a>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <a href="index.html" class="back-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        Back to Home
+      </a>
+      <h1 class="page-title">Serve <span class="text-orange">Suggestions</span></h1>
+      <p class="page-description">From classic simplicity to bold creations. Discover the perfect way to enjoy 2 Stroke.</p>
+    </div>
+  </section>
+
+  <!-- Cocktails Grid -->
+  <section class="section">
+    <div class="container">
+      <div class="cocktails-page-grid">
+        <!-- The Ignition -->
+        <div class="cocktail-page-card" data-animate onclick="toggleCocktail(this)">
+          <div class="cocktail-bar"></div>
+          <div class="cocktail-image">
+            <div class="cocktail-glass">
+              <div class="cocktail-glass-fill"></div>
+            </div>
+          </div>
+          <div class="cocktail-page-content">
+            <span class="cocktail-base">2 Stroke Original</span>
+            <h3 class="cocktail-page-name">The Ignition</h3>
+            <p class="cocktail-page-desc">A fiery start to any evening. The ginger beer adds a kick that complements the smoothness of 2 Stroke Original.</p>
+            <div class="cocktail-expanded">
+              <div class="cocktail-expanded-inner">
+                <h4 class="cocktail-section-title">Ingredients</h4>
+                <ul class="cocktail-ingredients">
+                  <li><span class="bullet"></span>2 oz 2 Stroke Original</li>
+                  <li><span class="bullet"></span>1 oz Fresh lime juice</li>
+                  <li><span class="bullet"></span>0.5 oz Agave nectar</li>
+                  <li><span class="bullet"></span>Ginger beer to top</li>
+                  <li><span class="bullet"></span>Lime wheel for garnish</li>
+                </ul>
+                <h4 class="cocktail-section-title" style="margin-top: 1.5rem;">Method</h4>
+                <p class="cocktail-method">Shake vodka, lime juice, and agave with ice. Strain into a highball glass over fresh ice. Top with ginger beer. Garnish with a lime wheel.</p>
+              </div>
+            </div>
+            <button class="cocktail-toggle">View recipe <span>↓</span></button>
+          </div>
+        </div>
+
+        <!-- Black Smoke -->
+        <div class="cocktail-page-card" data-animate onclick="toggleCocktail(this)">
+          <div class="cocktail-bar"></div>
+          <div class="cocktail-image">
+            <div class="cocktail-glass">
+              <div class="cocktail-glass-fill"></div>
+            </div>
+          </div>
+          <div class="cocktail-page-content">
+            <span class="cocktail-base">2 Stroke Black</span>
+            <h3 class="cocktail-page-name">Black Smoke</h3>
+            <p class="cocktail-page-desc">Dark, mysterious, and impossibly smooth. The charcoal-filtered vodka meets espresso for a sophisticated after-dinner drink.</p>
+            <div class="cocktail-expanded">
+              <div class="cocktail-expanded-inner">
+                <h4 class="cocktail-section-title">Ingredients</h4>
+                <ul class="cocktail-ingredients">
+                  <li><span class="bullet"></span>2 oz 2 Stroke Black</li>
+                  <li><span class="bullet"></span>1 oz Coffee liqueur</li>
+                  <li><span class="bullet"></span>1 shot Fresh espresso (cooled)</li>
+                  <li><span class="bullet"></span>0.5 oz Simple syrup</li>
+                  <li><span class="bullet"></span>Three coffee beans</li>
+                </ul>
+                <h4 class="cocktail-section-title" style="margin-top: 1.5rem;">Method</h4>
+                <p class="cocktail-method">Shake all ingredients except coffee beans vigorously with ice. Strain into a chilled coupe glass. Garnish with three coffee beans.</p>
+              </div>
+            </div>
+            <button class="cocktail-toggle">View recipe <span>↓</span></button>
+          </div>
+        </div>
+
+        <!-- Reserve Sour -->
+        <div class="cocktail-page-card" data-animate onclick="toggleCocktail(this)">
+          <div class="cocktail-bar"></div>
+          <div class="cocktail-image">
+            <div class="cocktail-glass">
+              <div class="cocktail-glass-fill"></div>
+            </div>
+          </div>
+          <div class="cocktail-page-content">
+            <span class="cocktail-base">2 Stroke Reserve</span>
+            <h3 class="cocktail-page-name">Reserve Sour</h3>
+            <p class="cocktail-page-desc">Classic sophistication meets oak-aged complexity. The egg white creates a silky texture that pairs beautifully with the vanilla notes.</p>
+            <div class="cocktail-expanded">
+              <div class="cocktail-expanded-inner">
+                <h4 class="cocktail-section-title">Ingredients</h4>
+                <ul class="cocktail-ingredients">
+                  <li><span class="bullet"></span>2 oz 2 Stroke Reserve</li>
+                  <li><span class="bullet"></span>1 oz Fresh lemon juice</li>
+                  <li><span class="bullet"></span>0.75 oz Simple syrup</li>
+                  <li><span class="bullet"></span>1 Egg white</li>
+                  <li><span class="bullet"></span>Angostura bitters</li>
+                </ul>
+                <h4 class="cocktail-section-title" style="margin-top: 1.5rem;">Method</h4>
+                <p class="cocktail-method">Dry shake all ingredients without ice. Add ice and shake again vigorously. Strain into a rocks glass. Dash bitters on top in a pattern.</p>
+              </div>
+            </div>
+            <button class="cocktail-toggle">View recipe <span>↓</span></button>
+          </div>
+        </div>
+
+        <!-- Midnight Mule -->
+        <div class="cocktail-page-card" data-animate onclick="toggleCocktail(this)">
+          <div class="cocktail-bar"></div>
+          <div class="cocktail-image">
+            <div class="cocktail-glass">
+              <div class="cocktail-glass-fill"></div>
+            </div>
+          </div>
+          <div class="cocktail-page-content">
+            <span class="cocktail-base">2 Stroke Black</span>
+            <h3 class="cocktail-page-name">Midnight Mule</h3>
+            <p class="cocktail-page-desc">Our take on the classic Moscow Mule, elevated with the depth of 2 Stroke Black and a hint of activated charcoal.</p>
+            <div class="cocktail-expanded">
+              <div class="cocktail-expanded-inner">
+                <h4 class="cocktail-section-title">Ingredients</h4>
+                <ul class="cocktail-ingredients">
+                  <li><span class="bullet"></span>2 oz 2 Stroke Black</li>
+                  <li><span class="bullet"></span>0.75 oz Fresh lime juice</li>
+                  <li><span class="bullet"></span>Ginger beer to top</li>
+                  <li><span class="bullet"></span>Mint sprig</li>
+                  <li><span class="bullet"></span>Lime wedge</li>
+                </ul>
+                <h4 class="cocktail-section-title" style="margin-top: 1.5rem;">Method</h4>
+                <p class="cocktail-method">Build in a copper mug over crushed ice. Add vodka and lime juice. Top with ginger beer. Garnish with mint sprig and lime wedge.</p>
+              </div>
+            </div>
+            <button class="cocktail-toggle">View recipe <span>↓</span></button>
+          </div>
+        </div>
+
+        <!-- Ember Old Fashioned -->
+        <div class="cocktail-page-card" data-animate onclick="toggleCocktail(this)">
+          <div class="cocktail-bar"></div>
+          <div class="cocktail-image">
+            <div class="cocktail-glass">
+              <div class="cocktail-glass-fill"></div>
+            </div>
+          </div>
+          <div class="cocktail-page-content">
+            <span class="cocktail-base">2 Stroke Reserve</span>
+            <h3 class="cocktail-page-name">Ember Old Fashioned</h3>
+            <p class="cocktail-page-desc">A bold reimagining of the classic. The oak-aged Reserve stands up beautifully to the bitters and orange oils.</p>
+            <div class="cocktail-expanded">
+              <div class="cocktail-expanded-inner">
+                <h4 class="cocktail-section-title">Ingredients</h4>
+                <ul class="cocktail-ingredients">
+                  <li><span class="bullet"></span>2.5 oz 2 Stroke Reserve</li>
+                  <li><span class="bullet"></span>0.25 oz Rich simple syrup</li>
+                  <li><span class="bullet"></span>2 dashes Angostura bitters</li>
+                  <li><span class="bullet"></span>1 dash Orange bitters</li>
+                  <li><span class="bullet"></span>Orange peel</li>
+                </ul>
+                <h4 class="cocktail-section-title" style="margin-top: 1.5rem;">Method</h4>
+                <p class="cocktail-method">Stir all ingredients with ice for 30 seconds. Strain into a rocks glass over a large ice cube. Express orange peel over drink and drop in.</p>
+              </div>
+            </div>
+            <button class="cocktail-toggle">View recipe <span>↓</span></button>
+          </div>
+        </div>
+
+        <!-- Pure & Simple -->
+        <div class="cocktail-page-card" data-animate onclick="toggleCocktail(this)">
+          <div class="cocktail-bar"></div>
+          <div class="cocktail-image">
+            <div class="cocktail-glass">
+              <div class="cocktail-glass-fill"></div>
+            </div>
+          </div>
+          <div class="cocktail-page-content">
+            <span class="cocktail-base">2 Stroke Original</span>
+            <h3 class="cocktail-page-name">Pure & Simple</h3>
+            <p class="cocktail-page-desc">Sometimes perfection needs no embellishment. Experience 2 Stroke Original exactly as intended.</p>
+            <div class="cocktail-expanded">
+              <div class="cocktail-expanded-inner">
+                <h4 class="cocktail-section-title">Ingredients</h4>
+                <ul class="cocktail-ingredients">
+                  <li><span class="bullet"></span>2 oz 2 Stroke Original (chilled)</li>
+                  <li><span class="bullet"></span>Lemon twist (optional)</li>
+                </ul>
+                <h4 class="cocktail-section-title" style="margin-top: 1.5rem;">Method</h4>
+                <p class="cocktail-method">Pour chilled vodka into a frozen glass. Express lemon twist over the surface if desired. Sip and appreciate the purity.</p>
+              </div>
+            </div>
+            <button class="cocktail-toggle">View recipe <span>↓</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tips Section -->
+  <section class="section section-dark">
+    <div class="container" style="max-width: 56rem;">
+      <h2 class="section-title" style="text-align: center; margin-bottom: 3rem;" data-animate>Pro <span class="text-orange">Tips</span></h2>
+      <div class="tips-grid">
+        <div data-animate>
+          <div class="tip-number">01</div>
+          <h3 class="tip-title">Chill Your Glass</h3>
+          <p class="tip-desc">Store your glasses in the freezer for at least 30 minutes before serving.</p>
+        </div>
+        <div data-animate>
+          <div class="tip-number">02</div>
+          <h3 class="tip-title">Quality Ice</h3>
+          <p class="tip-desc">Use large, clear ice cubes. They melt slower and dilute less.</p>
+        </div>
+        <div data-animate>
+          <div class="tip-number">03</div>
+          <h3 class="tip-title">Fresh Citrus</h3>
+          <p class="tip-desc">Always use freshly squeezed juice. Bottled simply cannot compare.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-logo">2 STROKE</div>
+        <div class="footer-links">
+          <a href="products.html">Products</a>
+          <a href="about.html">About</a>
+          <a href="cocktails.html" class="active">Cocktails</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copyright">© 2024 2 Stroke Vodka. All rights reserved.</p>
+        <p class="footer-legal">Drink responsibly. 18+ only.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="pages.js"></script>
+  <script>
+    function toggleCocktail(card) {
+      const wasActive = card.classList.contains('active');
+      
+      // Close all cards
+      document.querySelectorAll('.cocktail-page-card').forEach(c => {
+        c.classList.remove('active');
+        c.querySelector('.cocktail-toggle').innerHTML = 'View recipe <span>↓</span>';
+      });
+      
+      // Open clicked card if it wasn't already open
+      if (!wasActive) {
+        card.classList.add('active');
+        card.querySelector('.cocktail-toggle').innerHTML = 'Show less <span>↓</span>';
+      }
+    }
+  </script>
+</body>
+</html>
