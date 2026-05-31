@@ -1,16 +1,12 @@
 // ===== State Management =====
 let stage = 'intro';
 let fillProgress = 0;
-let bottleOffset = 0;
 let heroAnimationComplete = false;
 let accumulatedScroll = 0;
 
-// Desktop: bottles go left/right
-const MAX_OFFSET = 450;
-// Mobile: bottles go up/down
-const MAX_OFFSET_MOBILE = 220;
+const MAX_OFFSET = 450;       // desktop: how far bottles go left/right
+const MAX_OFFSET_MOBILE = 200; // mobile: how far bottles go up/down
 
-// Touch tracking
 let lastTouchY = 0;
 
 // ===== DOM Elements =====
@@ -20,40 +16,32 @@ const ageGate = document.getElementById('age-gate');
 const mainSite = document.getElementById('main-site');
 const introFill = document.querySelector('.intro-text-fill');
 const scrollHint = document.querySelector('.scroll-hint');
-
 const ageYesBtn = document.getElementById('age-yes');
 const ageNoBtn = document.getElementById('age-no');
-
 const mobileMenuBtn = document.getElementById('mobile-menu-btn');
 const mobileMenu = document.getElementById('mobile-menu');
 const menuIcon = document.getElementById('menu-icon');
 const closeIcon = document.getElementById('close-icon');
-
 const bottleLeft = document.getElementById('bottle-left');
 const bottleRight = document.getElementById('bottle-right');
 const lightLeak = document.getElementById('light-leak');
 const heroContent = document.getElementById('hero-content');
 const heroScrollHint = document.getElementById('hero-scroll-hint');
 
-// ===== Helpers =====
 function isMobile() {
   return window.innerWidth < 768;
 }
 
 // ===== Check Session Storage =====
 function checkAgeVerification() {
-  if (sessionStorage.getItem('ageVerified') === 'true') {
-    showMainSite();
-  }
+  if (sessionStorage.getItem('ageVerified') === 'true') showMainSite();
 }
 
 // ===== Intro Animation =====
 function handleIntroScroll() {
   if (stage !== 'intro') return;
   fillProgress = Math.min((window.scrollY / window.innerHeight) * 100, 100);
-  if (introFill) {
-    introFill.style.clipPath = `inset(0 ${100 - fillProgress}% 0 0)`;
-  }
+  if (introFill) introFill.style.clipPath = `inset(0 ${100 - fillProgress}% 0 0)`;
   if (fillProgress >= 100) setTimeout(showAgeGate, 300);
 }
 
@@ -86,45 +74,66 @@ function showMainSite() {
   scrollHint.classList.add('hidden');
   ageGate.classList.add('hidden');
   mainSite.classList.remove('hidden');
-
   setTimeout(() => mainSite.classList.add('visible'), 10);
 
-  // On mobile, set bottles to starting position of 90deg immediately
-  if (isMobile()) {
-    if (bottleLeft) bottleLeft.style.transform = 'translateX(-50%) rotate(90deg)';
-    if (bottleRight) bottleRight.style.transform = 'translateX(50%) rotate(90deg)';
-  }
+  // Set initial bottle positions
+  setInitialBottlePositions();
 
-  // Lock scroll for hero animation on both mobile and desktop
+  // Lock scroll for hero animation
   document.body.style.overflow = 'hidden';
   window.scrollTo(0, 0);
 
-  // Desktop: wheel
   window.addEventListener('wheel', handleHeroWheel, { passive: false });
-  // Mobile & tablet: touch
   window.addEventListener('touchstart', handleHeroTouchStart, { passive: true });
   window.addEventListener('touchmove', handleHeroTouchMove, { passive: false });
 
   initScrollAnimations();
 }
 
-// ===== Update bottle positions =====
-function updateBottlePositions(offset) {
+// ===== Set initial bottle positions =====
+function setInitialBottlePositions() {
   if (isMobile()) {
-    const maxOffset = MAX_OFFSET_MOBILE;
-    const progress = offset / maxOffset; // 0 to 1
-    // Start at 90deg, end at 180deg
-    const rotation = 90 + (progress * 90);
-    // Both bottles centered via CSS (left:50%, top:50%)
-    // Left bottle moves UP, right bottle moves DOWN
-    bottleLeft.style.transform = `translateX(-50%) translateY(-${offset}px) rotate(${rotation}deg)`;
-    bottleRight.style.transform = `translateX(50%) translateY(${offset}px) rotate(${rotation}deg)`;
+    // Center both bottles horizontally, side by side, rotated 90deg
+    // hero center = 50% from top
+    // left bottle: left quarter of screen, centered vertically
+    // right bottle: right quarter of screen, centered vertically
+    bottleLeft.style.position = 'absolute';
+    bottleLeft.style.left = '25%';
+    bottleLeft.style.top = '50%';
+    bottleLeft.style.transform = 'translate(-50%, -50%) rotate(90deg)';
+
+    bottleRight.style.position = 'absolute';
+    bottleRight.style.left = '75%';
+    bottleRight.style.top = '50%';
+    bottleRight.style.transform = 'translate(-50%, -50%) rotate(90deg)';
+  }
+}
+
+// ===== Update bottle positions during animation =====
+function updateBottlePositions(offset) {
+  const maxOffset = isMobile() ? MAX_OFFSET_MOBILE : MAX_OFFSET;
+  const progress = Math.min(offset / maxOffset, 1);
+
+  if (isMobile()) {
+    // Bottles move: left one goes UP toward center-top, right one goes DOWN toward center-bottom
+    // X: both converge toward center (50%) as they move
+    // Y: left goes up, right goes down from 50%
+    const rotation = 90 + (progress * 90); // 90deg -> 180deg
+    const leftX = 25 + (progress * 25); // 25% -> 50%
+    const rightX = 75 - (progress * 25); // 75% -> 50%
+    const yOffset = progress * MAX_OFFSET_MOBILE; // 0 -> 200px
+
+    bottleLeft.style.transform = `translate(-50%, calc(-50% - ${yOffset}px)) rotate(${rotation}deg)`;
+    bottleRight.style.transform = `translate(-50%, calc(-50% + ${yOffset}px)) rotate(${rotation}deg)`;
+    bottleLeft.style.left = `${leftX}%`;
+    bottleRight.style.left = `${rightX}%`;
   } else {
     bottleLeft.style.transform = `translateX(calc(-50% - ${offset}px))`;
     bottleRight.style.transform = `translateX(calc(50% + ${offset}px))`;
   }
-  lightLeak.style.opacity = Math.min(offset / 150, 1);
-  heroContent.style.opacity = Math.min(offset / (isMobile() ? 120 : 200), 1);
+
+  lightLeak.style.opacity = Math.min(progress * 1.5, 1);
+  heroContent.style.opacity = Math.min(progress * 1.5, 1);
 }
 
 // ===== Hero Wheel (Desktop) =====
@@ -134,14 +143,12 @@ function handleHeroWheel(e) {
 
   accumulatedScroll += e.deltaY * 0.8;
   accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, MAX_OFFSET * 2));
-  bottleOffset = Math.min(accumulatedScroll * 0.5, MAX_OFFSET);
-
-  updateBottlePositions(bottleOffset);
-
-  if (bottleOffset >= MAX_OFFSET) finishHeroAnimation();
+  const offset = Math.min(accumulatedScroll * 0.5, MAX_OFFSET);
+  updateBottlePositions(offset);
+  if (offset >= MAX_OFFSET) finishHeroAnimation();
 }
 
-// ===== Hero Touch (Mobile/Tablet) =====
+// ===== Hero Touch (Mobile) =====
 function handleHeroTouchStart(e) {
   if (heroAnimationComplete) return;
   lastTouchY = e.touches[0].clientY;
@@ -152,19 +159,15 @@ function handleHeroTouchMove(e) {
   e.preventDefault();
 
   const currentY = e.touches[0].clientY;
-  const deltaY = lastTouchY - currentY; // positive = swiping up
+  const deltaY = lastTouchY - currentY;
   lastTouchY = currentY;
 
   const maxOffset = isMobile() ? MAX_OFFSET_MOBILE : MAX_OFFSET;
-  const sensitivity = isMobile() ? 2.5 : 1.5;
-
-  accumulatedScroll += deltaY * sensitivity;
+  accumulatedScroll += deltaY * 2;
   accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, maxOffset * 2));
-  bottleOffset = Math.min(accumulatedScroll * 0.5, maxOffset);
-
-  updateBottlePositions(bottleOffset);
-
-  if (bottleOffset >= maxOffset) finishHeroAnimation();
+  const offset = Math.min(accumulatedScroll * 0.5, maxOffset);
+  updateBottlePositions(offset);
+  if (offset >= maxOffset) finishHeroAnimation();
 }
 
 // ===== Finish Hero Animation =====
@@ -210,5 +213,4 @@ if (mobileMenu) {
   });
 }
 
-// ===== Initialize =====
 checkAgeVerification();
