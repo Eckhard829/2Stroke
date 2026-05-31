@@ -75,18 +75,26 @@ function showMainSite() {
 }
 
 function getMobileMaxOffset() {
-  // Bottles are 15rem (240px) tall on mobile. Center them at 50% vh.
-  // We want top bottle top-edge near 15% vh and bottom bottle bottom-edge near 85% vh.
-  // So each bottle travels roughly 30% of vh from center.
-  return Math.round(window.innerHeight * 0.30);
+  // Bottles start at center (50% of vh).
+  // Bottle height on mobile = 240px (15rem).
+  // Top bottle: travels UP. Must land so its BOTTOM EDGE is above the hero text area.
+  // Hero text starts roughly at 50%vh - 180px from center.
+  // So top bottle bottom = (50%vh - offset) + 120px must be < (50%vh - 180px)
+  // => offset > 300px. Use 55% of vh which on a 844px phone = ~464px. Plenty of clearance.
+  //
+  // Bottom bottle: travels DOWN by same amount.
+  // Bottom bottle top = (50%vh + offset) - 120px must be > (50%vh + 180px)
+  // => same condition. 55% works.
+  return Math.round(window.innerHeight * 0.55);
 }
 
 function updateBottlePositions(offset) {
   const maxOffset = isMobile() ? getMobileMaxOffset() : MAX_OFFSET;
-  const progress = Math.min(offset / maxOffset, 1);
 
   if (isMobile()) {
+    const progress = Math.min(offset / maxOffset, 1);
     const rotation = Math.min(progress * 180, 180);
+    // Top bottle moves UP, bottom bottle moves DOWN
     bottleLeft.style.transform = `translate(-50%, calc(-50% - ${offset}px)) rotate(${rotation}deg)`;
     bottleRight.style.transform = `translate(-50%, calc(-50% + ${offset}px)) rotate(${rotation}deg)`;
   } else {
@@ -94,9 +102,8 @@ function updateBottlePositions(offset) {
     bottleRight.style.transform = `translateX(calc(50% + ${offset}px))`;
   }
 
-  const maxOffset2 = isMobile() ? getMobileMaxOffset() : MAX_OFFSET;
-  lightLeak.style.opacity = Math.min(offset / (maxOffset2 * 0.6), 1);
-  heroContent.style.opacity = Math.min(offset / (maxOffset2 * 0.7), 1);
+  lightLeak.style.opacity = Math.min(offset / (maxOffset * 0.5), 1);
+  heroContent.style.opacity = Math.min(offset / (maxOffset * 0.6), 1);
 }
 
 function handleHeroWheel(e) {
