@@ -116,9 +116,12 @@ function isMobile() {
 }
 
 function completeHeroAnimation() {
-  // Instantly show bottles spread and hero content
-  if (bottleLeft) bottleLeft.style.transform = `translateX(calc(-50% - ${MAX_OFFSET}px))`;
-  if (bottleRight) bottleRight.style.transform = `translateX(calc(50% + ${MAX_OFFSET}px))`;
+  // On mobile use a smaller offset so both bottles stay visible on screen
+  const mobileOffset = Math.min(window.innerWidth * 0.28, 110);
+  const offset = isMobile() ? mobileOffset : MAX_OFFSET;
+
+  if (bottleLeft) bottleLeft.style.transform = `translateX(calc(-50% - ${offset}px))`;
+  if (bottleRight) bottleRight.style.transform = `translateX(calc(50% + ${offset}px))`;
   if (lightLeak) lightLeak.style.opacity = '1';
   if (heroContent) heroContent.style.opacity = '1';
   if (heroScrollHint) heroScrollHint.textContent = 'Scroll to explore';
