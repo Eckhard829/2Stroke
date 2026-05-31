@@ -74,39 +74,23 @@ function showMainSite() {
   initScrollAnimations();
 }
 
-function getMobileMaxOffset() {
-  // Top bottle center lands just below navbar (~190px from top)
-  // offset = 50%vh - 190px
-  return Math.round(window.innerHeight * 0.5) - 190;
-}
-
 function updateBottlePositions(offset) {
-  const maxOffset = isMobile() ? getMobileMaxOffset() : MAX_OFFSET;
-  const progress = Math.min(offset / maxOffset, 1);
-  // Rotate from 0deg to 180deg as bottles reach final position
-  const rotation = 90 + (progress * 90);
+  // Same on mobile and desktop: bottles slide left and right off screen
+  bottleLeft.style.transform  = `translateX(calc(-50% - ${offset}px))`;
+  bottleRight.style.transform = `translateX(calc(50% + ${offset}px))`;
 
-  if (isMobile()) {
-    bottleLeft.style.transform  = `translate(-50%, calc(-50% - ${offset}px)) rotate(${rotation}deg)`;
-    bottleRight.style.transform = `translate(-50%, calc(-50% + ${offset}px)) rotate(${rotation}deg)`;
-  } else {
-    bottleLeft.style.transform  = `translateX(calc(-50% - ${offset}px))`;
-    bottleRight.style.transform = `translateX(calc(50% + ${offset}px))`;
-  }
-
-  lightLeak.style.opacity   = Math.min(offset / (maxOffset * 0.5), 1);
-  heroContent.style.opacity = Math.min(offset / (maxOffset * 0.6), 1);
+  lightLeak.style.opacity   = Math.min(offset / 150, 1);
+  heroContent.style.opacity = Math.min(offset / 200, 1);
 }
 
 function handleHeroWheel(e) {
   if (heroAnimationComplete) return;
   e.preventDefault();
-  const maxOffset = isMobile() ? getMobileMaxOffset() : MAX_OFFSET;
   accumulatedScroll += e.deltaY * 0.8;
-  accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, maxOffset * 2));
-  const offset = Math.min(accumulatedScroll * 0.5, maxOffset);
+  accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, MAX_OFFSET * 2));
+  const offset = Math.min(accumulatedScroll * 0.5, MAX_OFFSET);
   updateBottlePositions(offset);
-  if (offset >= maxOffset) finishHeroAnimation();
+  if (offset >= MAX_OFFSET) finishHeroAnimation();
 }
 
 function handleHeroTouchStart(e) {
@@ -120,14 +104,11 @@ function handleHeroTouchMove(e) {
   const currentY = e.touches[0].clientY;
   const deltaY = lastTouchY - currentY;
   lastTouchY = currentY;
-  const maxOffset = isMobile() ? getMobileMaxOffset() : MAX_OFFSET;
-
-  accumulatedScroll += deltaY;
-  accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, maxOffset));
-  const offset = accumulatedScroll;
-
+  accumulatedScroll += deltaY * 2;
+  accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, MAX_OFFSET * 2));
+  const offset = Math.min(accumulatedScroll * 0.5, MAX_OFFSET);
   updateBottlePositions(offset);
-  if (offset >= maxOffset) finishHeroAnimation();
+  if (offset >= MAX_OFFSET) finishHeroAnimation();
 }
 
 function finishHeroAnimation() {
