@@ -75,28 +75,22 @@ function showMainSite() {
 }
 
 function getMobileMaxOffset() {
-  // Bottles start at center (50% of vh).
-  // Bottle height on mobile = 240px (15rem).
-  // Top bottle: travels UP. Must land so its BOTTOM EDGE is above the hero text area.
-  // Hero text starts roughly at 50%vh - 180px from center.
-  // So top bottle bottom = (50%vh - offset) + 120px must be < (50%vh - 180px)
-  // => offset > 300px. Use 55% of vh which on a 844px phone = ~464px. Plenty of clearance.
-  //
-  // Bottom bottle: travels DOWN by same amount.
-  // Bottom bottle top = (50%vh + offset) - 120px must be > (50%vh + 180px)
-  // => same condition. 55% works.
-  return Math.round(window.innerHeight * 0.55);
+  // Bottles start centered at 50% vh. Bottle height = 240px.
+  // Top bottle must be fully ABOVE the navbar (~70px from top).
+  // Its center needs to be at: 70px - 120px = -50px (off screen top).
+  // Distance from screen center (50%vh): 50%vh + 50px.
+  // On 844px phone: 422 + 50 = 472px. Use 60% vh + 50px to cover all phone sizes.
+  return Math.round(window.innerHeight * 0.60) + 50;
 }
 
 function updateBottlePositions(offset) {
   const maxOffset = isMobile() ? getMobileMaxOffset() : MAX_OFFSET;
+  const progress = Math.min(offset / maxOffset, 1);
 
   if (isMobile()) {
-    const progress = Math.min(offset / maxOffset, 1);
-    const rotation = Math.min(progress * 180, 180);
-    // Top bottle moves UP, bottom bottle moves DOWN
-    bottleLeft.style.transform = `translate(-50%, calc(-50% - ${offset}px)) rotate(${rotation}deg)`;
-    bottleRight.style.transform = `translate(-50%, calc(-50% + ${offset}px)) rotate(${rotation}deg)`;
+    // Top bottle flies UP (rotated 180° upside down), bottom flies DOWN
+    bottleLeft.style.transform = `translate(-50%, calc(-50% - ${offset}px)) rotate(${progress * 180}deg)`;
+    bottleRight.style.transform = `translate(-50%, calc(-50% + ${offset}px)) rotate(${progress * 180}deg)`;
   } else {
     bottleLeft.style.transform = `translateX(calc(-50% - ${offset}px))`;
     bottleRight.style.transform = `translateX(calc(50% + ${offset}px))`;
