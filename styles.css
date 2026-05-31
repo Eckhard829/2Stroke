@@ -1169,14 +1169,13 @@ ul {
     min-height: 100vh;
   }
 
-  /* Bottles: on mobile they start centered and move vertically.
-     Both bottles sit at center X, offset by translateY in JS */
+  /* Bottles: start at 90deg on mobile, JS rotates them to 180deg */
   .bottle-left {
-    transform: translateX(-50%) translateY(0);
+    transform: translateX(-50%) rotate(90deg);
   }
 
   .bottle-right {
-    transform: translateX(50%) translateY(0);
+    transform: translateX(50%) rotate(90deg);
   }
 
   /* Slightly smaller bottles on phones */

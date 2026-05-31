@@ -105,11 +105,14 @@ function showMainSite() {
 // ===== Update bottle positions =====
 function updateBottlePositions(offset) {
   if (isMobile()) {
-    // Left bottle goes UP, right bottle goes DOWN
-    bottleLeft.style.transform = `translateX(-50%) translateY(-${offset}px)`;
-    bottleRight.style.transform = `translateX(50%) translateY(${offset}px)`;
+    const maxOffset = MAX_OFFSET_MOBILE;
+    const progress = offset / maxOffset; // 0 to 1
+    // Start at 90deg, end at 180deg
+    const rotation = 90 + (progress * 90);
+    // Left bottle goes UP and rotates, right bottle goes DOWN and rotates
+    bottleLeft.style.transform = `translateX(-50%) translateY(-${offset}px) rotate(${rotation}deg)`;
+    bottleRight.style.transform = `translateX(50%) translateY(${offset}px) rotate(${rotation}deg)`;
   } else {
-    // Desktop: left goes left, right goes right
     bottleLeft.style.transform = `translateX(calc(-50% - ${offset}px))`;
     bottleRight.style.transform = `translateX(calc(50% + ${offset}px))`;
   }
