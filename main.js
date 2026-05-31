@@ -75,21 +75,20 @@ function showMainSite() {
 }
 
 function getMobileMaxOffset() {
-  // Bottle height = 240px. Bottles start at center (50% vh).
-  // Target from screenshot: top bottle sits just below navbar (~70px from top).
-  // Top bottle CENTER = 70px + 120px = 190px from top.
-  // offset = (50% vh) - 190px
-  // On 844px: 422 - 190 = 232px
+  // Top bottle center lands just below navbar (~190px from top)
+  // offset = 50%vh - 190px
   return Math.round(window.innerHeight * 0.5) - 190;
 }
 
 function updateBottlePositions(offset) {
   const maxOffset = isMobile() ? getMobileMaxOffset() : MAX_OFFSET;
   const progress = Math.min(offset / maxOffset, 1);
+  // Rotate from 0deg to 180deg as bottles reach final position
+  const rotation = 90 + (progress * 90);
 
   if (isMobile()) {
-    bottleLeft.style.transform  = `translate(-50%, calc(-50% - ${offset}px)) rotate(${progress * 180}deg)`;
-    bottleRight.style.transform = `translate(-50%, calc(-50% + ${offset}px)) rotate(${progress * 180}deg)`;
+    bottleLeft.style.transform  = `translate(-50%, calc(-50% - ${offset}px)) rotate(${rotation}deg)`;
+    bottleRight.style.transform = `translate(-50%, calc(-50% + ${offset}px)) rotate(${rotation}deg)`;
   } else {
     bottleLeft.style.transform  = `translateX(calc(-50% - ${offset}px))`;
     bottleRight.style.transform = `translateX(calc(50% + ${offset}px))`;
@@ -123,7 +122,6 @@ function handleHeroTouchMove(e) {
   lastTouchY = currentY;
   const maxOffset = isMobile() ? getMobileMaxOffset() : MAX_OFFSET;
 
-  // 1:1 direct mapping — finger moves up X px, bottles move X px apart
   accumulatedScroll += deltaY;
   accumulatedScroll = Math.max(0, Math.min(accumulatedScroll, maxOffset));
   const offset = accumulatedScroll;
